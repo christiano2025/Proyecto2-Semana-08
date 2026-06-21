@@ -100,6 +100,34 @@ La ruta del dashboard usa `login_required`, por eso una persona que no haya inic
 - `/dashboard` → Muestra la página privada.
 - `/logout` → Cierra la sesión del usuario.
 
-## 7. Conclusión
+## 7. Seguridad Automatizada
+
+El proyecto cuenta con un pipeline de seguridad implementado mediante GitHub Actions. Cada vez que se realiza un cambio en la rama principal (`main`), se ejecuta automáticamente un análisis de seguridad utilizando la herramienta Bandit.
+
+### Workflow utilizado
+
+```yaml
+name: Security Pipeline
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - run: pip install -r requirements.txt
+
+      - run: bandit -r app.py
+```
+## 8. Conclusión
 
 Este proyecto sirve para aprender cómo funciona un sistema de autenticación en Flask. También permite practicar el uso de formularios, sesiones, bases de datos y protección de contraseñas.
